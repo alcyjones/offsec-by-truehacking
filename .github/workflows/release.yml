@@ -25,13 +25,13 @@ jobs:
         with:
           node-version: 22.19.0
           cache: npm
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
 
       - name: Build (npm build:cached)
         run: npm ci && npm run build
 
-      - name: Publish (npm publish)
+      - name: Publish (npm publish — GitHub Packages)
         run: |
           npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
