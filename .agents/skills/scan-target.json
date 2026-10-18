@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opencode.ai/skill.json",
+  "name": "scan-target",
+  "title": "Scan Target (nmap)",
+  "description": "Executa um scan de rede (nmap) no host target. Varredura TCP SYN, UDP, Connect.",
+  "category": "pentest-recon",
+  "version": "0.0.1",
+  "steps": [
+    {
+      "action": "Call MCP tool 'scanShallow' (target='192.168.1.100', ports='22,80,443') to find open ports.",
+      "expected_output": "List of open ports (host: '192.168.1.100', ports: [22,80,443], services: [ssh, http, https]).",
+      "next": "If 'open': call 'scanDeep' (target='192.168.1.100', ports='1-65535')."
+    },
+    {
+      "action": "Call MCP tool 'scanDeep' (target='192.168.1.100', ports='1-65535') for full scan.",
+      "expected_output": "Full list of open ports (host: '192.168.1.100', ports: [...], services: [...]).",
+      "next": "Report: 'Host 192.168.1.100 has X open ports, Y services.'"
+    }
+  ],
+  "parameters": {
+    "target": "String (ip or hostname, e.g., '192.168.1.100').",
+    "ports": "String (default: '22,80,443').",
+    "mode": "String (default: 'syn').",
+    "options": "Object (nmap options, e.g., '-sV -T4')."
+  },
+  "error_handling": [
+    "If 'error.code=404': report 'nmap binary not found (install: brew install nmap or apt install nmap).'",
+    "If 'error.code=403': report 'Permission denied (root privileges required for raw socket).'"
+  ]
+}

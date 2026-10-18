@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opencode.ai/skill.json",
+  "name": "pcap-capture",
+  "title": "Capture Traffic (PCAP)",
+  "description": "Captura de tráfego de rede (tcpdump). Interface, filtro (BPF), output (pcap file), duration (live timeout).",
+  "category": "pentest-recon",
+  "version": "0.0.1",
+  "steps": [
+    {
+      "action": "Call MCP tool 'pcap' (interface='eth0', filter='tcp port 80' or 'icmp') to capture packets to a file.",
+      "expected_output": "PcapResult: interface, packets, file (path, e.g., /tmp/xxx.pcap), provenance.",
+      "next": "If packets > 0: report 'Captured X packets (file: /tmp/xxx.pcap).'"
+    },
+    {
+      "action": "Call MCP tool 'pcapLive' (interface='eth0', filter='tcp port 443', duration=30) for live (long-running) capture.",
+      "expected_output": "LiveResult: interface, packets, duration (seconds), file (path).",
+      "next": "Report: 'Live capture: X packets (duration: 30s, file: /tmp/xxx.pcap).'"
+    }
+  ],
+  "parameters": {
+    "interface": "String (default: 'eth0').",
+    "filter": "String (BPF filter, e.g., 'tcp port 80', 'icmp').",
+    "file": "String (output path, e.g., '/tmp/output.pcap').",
+    "duration": "Number (seconds: for live, e.g., 60, 120)."
+  },
+  "error_handling": [
+    "If 'error.code=403': report 'Permission denied (root privileges required for raw socket).'",
+    "If 'error.code=404': report 'tcpdump binary not found (install: brew install tcpdump or apt install tcpdump).'."
+  ]
+}

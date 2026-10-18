@@ -1,0 +1,33 @@
+{
+  "$schema": "https://opencode.ai/skill.json",
+  "name": "cti-threat-intel",
+  "title": "CTI Threat Intelligence",
+  "description": "Busca Inteligência de Ameaças (threat intel): IP, domain, hash, URL. Usa Shodan, VirusTotal, MITRE ATT&CK, PassiveTotal.",
+  "category": "pentest-cti",
+  "version": "0.0.1",
+  "steps": [
+    {
+      "action": "Call MCP tool 'threatIntel' (query='192.168.1.100', provider='shodan') for IP/domain intel.",
+      "expected_output": "Results: 'Shodan: ports open, services, country, asn.'",
+      "next": "Call MCP tool 'threatIntel' (query='domain.com', provider='virustotal') for domain intel."
+    },
+    {
+      "action": "Call MCP tool 'threatIntel' (query='domain.com', provider='virustotal') for domain intel.",
+      "expected_output": "Results: 'VT: categories (malware, p2p, gambling), score (xx/90, xx/140).'",
+      "next": "Compile report (findings)."
+    },
+    {
+      "action": "Report findings (threat intel report: IP/domain/hash/URL with score, categories, services).",
+      "expected_output": "Report: 'Target 192.168.1.100: Shodan (ports: [22,80,443], services: [ssh, http, https]), VT (score: 5/90, categories: ['malware']).'",
+      "next": "Close."
+    }
+  ],
+  "parameters": {
+    "query": "String (IP, domain, hash, or URL).",
+    "provider": "String (default: 'shodan', options: 'shodan, virustotal, passive, mitre, third-party'.",
+    "actions": "String (default: 'all', options: 'all, ip, domain, hash, url, all services (services: [22,80,443]), malware, gateway (domains: malicious, gambling).'"
+  },
+  "error_handling": [
+    "If 'error.code=404': report 'Threat Intel provider not found (API key missing or provider API unreachable).'"
+  ]
+}
