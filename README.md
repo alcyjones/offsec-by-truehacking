@@ -72,31 +72,50 @@ offsec-by-truehacking/
 └── .gitignore             # Excluded: node_modules, dist, .cache, .npmrc, .nvmrc, .github, LICENSE, pkg/.
 ```
 
-## Funcionalidades (MCP Tools)
+## Funcionalidades (40+ MCP Tools)
 
-| Ferramenta | Descrição |
-|-----------|-----------|
-| `scan` | Escaneamento nmap (TCP SYN, UDP, Connect). |
-| `scanShallow` | Scan rápido (common ports: 22, 80, 443, 8080, 8443). |
-| `scanDeep` | Scan completo (1–65535 ports). |
-| `pcap` | Captura pcap (tcpdump: interface, filter, file). |
-| `pcapLive` | Captura live (long-running: duration, live capture). |
-| `exploit` | Executa exploit (payload: reverse/binder/meterpreter shell). |
-| `metasploit` | Execute Metasploit (msfconsole: modules, payloads, targets). |
-| `payload` | Custom payload (reverse, binder, meterpreter, shell). |
-| `cveExploit` | CVE-based exploit (lookup + exploit + verify). |
-| `threatIntel` | Search threat intel (Shodan, VirusTotal, MITRE ATT&CK). |
-| `malwareAnalysis` | Malware analysis (hash, PE, YARA, strings, signatures). |
-| `forensic` | Forensic (data from local, memory dump, file ops). |
-| `listAgents` | List agents/sessions (open sessions). |
-| `agentInteract` | Interact with an agent (session: read/write/output). |
-| `killSession` | Kill a session (exit/cleanup). |
-| `subnetScan` | Subnet scan (arp/ping discovery + services). |
-| `command` | Run a command (generic shell). |
-| `fileOps` | File operations (read/write/transfer). |
-| `customPayload` | Custom payload (meterpreter, reverse shell, etc.). |
-| `kerberoast` | Kerberoasting (Kerberos ticket extraction). |
-| `ntlmDump` | NTLM credential dump (data from local). |
+| Ferramenta | Categoria | Descrição |
+|-----------|-----------|-----------|
+| `scan` | Recon | Escaneamento nmap (TCP SYN, UDP, Connect). |
+| `scanShallow` | Recon | Scan rápido (common ports: 22, 80, 443, 8080, 8443). |
+| `scanDeep` | Recon | Scan completo (1–65535 ports). |
+| `pcap` | Captura | Captura pcap (tcpdump: interface, filter, file). |
+| `pcapLive` | Captura | Captura live (long-running: duration). |
+| `exploit` | Exploit | Executa exploit (payload: reverse/binder/meterpreter). |
+| `metasploit` | Exploit | Execute Metasploit (msfconsole: modules, payloads, targets). |
+| `payload` | Exploit | Custom payload (reverse, binder, meterpreter, shell). |
+| `cveExploit` | Exploit | CVE-based exploit (lookup + exploit + verify). |
+| `threatIntel` | CTI | Search threat intel (Shodan, VirusTotal, MITRE ATT&CK). |
+| `malwareAnalysis` | CTI | Malware analysis (hash, PE, YARA, strings, signatures). |
+| `forensic` | CTI | Forensic (data from local, memory dump, file ops). |
+| `listAgents` | Framework | List agents/sessions (open sessions). |
+| `agentInteract` | Framework | Interact with an agent (session: read/write/output). |
+| `killSession` | Framework | Kill a session (exit/cleanup). |
+| `subnetScan` | Util | Subnet scan (arp/ping discovery + services). |
+| `command` | Util | Run a command (generic shell). |
+| `fileOps` | Util | File operations (read/write/transfer). |
+| `customPayload` | Exploit | Custom payload (meterpreter, reverse shell, etc.). |
+| `kerberoast` | Windows | Kerberoasting (Kerberos ticket extraction). |
+| `ntlmDump` | Windows | NTLM credential dump (data from local). |
+| `persistence` | Pós-Expo | Persistence (backdoor, keylogger, scheduled task). |
+| `keylogger` | Pós-Expo | Keylogger (screenshot + keystroke capture). |
+| `persistenceSchedule` | Pós-Expo | Persist via task/registry/cron. |
+| `evasion` | Evasão | Encode/decode shellcode (XOR, ROT13, Base64, UDROP). |
+| `evasionSilent` | Evasão | Silent mode (reverse/shellcode/binder stealth). |
+| `evasionStealth` | Evasão | Network stealth (DNS tunnel, HTTPS, covert). |
+| `reporting` | Relatórios | Penetration report (findings, recommendations, CVSS). |
+| `reportWrite` | Relatórios | Write report (PDF/HTML/Markdown). |
+| `c2` | C2 | Create C2 (command-and-control channel). |
+| `c2Interact` | C2 | Interact C2 session (remote shell/command). |
+| `c2Kill` | C2 | Kill (remove) a C2 session. |
+| `privilegeEscalation` | Windows | PrivEsc (sudo, SUID, capabilities, kernel exploit). |
+| `lateralMovement` | Windows | Lateral (psExec, WMI, SSH, Pass-the-Hash). |
+| `exfiltration` | Dados | Data exfiltration (DNS, HTTPS, ICMP tunnel). |
+| `wireless` | Wireless | Wi-Fi attack (deauth, PMKID, handshake). |
+| `cloud` | Cloud | Cloud exploitation (IAM, S3, GCP, Azure). |
+| `bruteForce` | Credenciais | Brute force (SSH, RDP, FTP, SMB, HTTP password). |
+| `misp` | Intel | Connect MISP (Import/export IOCs, indicators). |
+| `osint` | Intel | OSINT (username, email, phone, social media lookup). |
 
 ## Errata (erros comuns)
 

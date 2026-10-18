@@ -39,6 +39,25 @@ const TOOLS: Record<string, (params: any) => Promise<any>> = {
   [OFFSEC_TOOLS.customPayload]: (params) => handleCustomPayload(params),
   [OFFSEC_TOOLS.kerberoast]: (params) => handleKerberoast(params),
   [OFFSEC_TOOLS.ntlmDump]: (params) => handleNtlmDump(params),
+  [OFFSEC_TOOLS.persistence]: (params) => handlePersistence(params),
+  [OFFSEC_TOOLS.keylogger]: (params) => handleKeylogger(params),
+  [OFFSEC_TOOLS.persistenceSchedule]: (params) => handlePersistenceSchedule(params),
+  [OFFSEC_TOOLS.evasion]: (params) => handleEvasion(params),
+  [OFFSEC_TOOLS.evasionSilent]: (params) => handleEvasionSilent(params),
+  [OFFSEC_TOOLS.evasionStealth]: (params) => handleEvasionStealth(params),
+  [OFFSEC_TOOLS.reporting]: (params) => handleReporting(params),
+  [OFFSEC_TOOLS.reportWrite]: (params) => handleReportWrite(params),
+  [OFFSEC_TOOLS.c2]: (params) => handleC2(params),
+  [OFFSEC_TOOLS.c2Interact]: (params) => handleC2Interact(params),
+  [OFFSEC_TOOLS.c2Kill]: (params) => handleC2Kill(params),
+  [OFFSEC_TOOLS.privilegeEscalation]: (params) => handlePrivilegeEscalation(params),
+  [OFFSEC_TOOLS.lateralMovement]: (params) => handleLateralMovement(params),
+  [OFFSEC_TOOLS.exfiltration]: (params) => handleExfiltration(params),
+  [OFFSEC_TOOLS.wireless]: (params) => handleWireless(params),
+  [OFFSEC_TOOLS.cloud]: (params) => handleCloud(params),
+  [OFFSEC_TOOLS.bruteForce]: (params) => handleBruteForce(params),
+  [OFFSEC_TOOLS.misp]: (params) => handleMisp(params),
+  [OFFSEC_TOOLS.osint]: (params) => handleOsint(params),
 };
 
 /** Lookup the tool (by name). */
@@ -221,5 +240,121 @@ async function handleKerberoast(params: any): Promise<any> {
 async function handleNtlmDump(params: any): Promise<any> {
   const { ntlmDump } = await import("../adapters/ntlmDump.js");
   const result = ntlmDump({ target: params.target, actions: params.actions, options: params.options });
+  return { result };
+}
+
+// ─── New Handlers (Persistence, Evasion, Reporting, C2, Privilege Escalation, Lateral Movement, Exfiltration, Wireless, Cloud, Brute Force, MISP, OSINT) ─────────────────────────────────────────────────────────────────────
+
+async function handlePersistence(params: any): Promise<any> {
+  const { persistence } = await import("../adapters/persistence.js");
+  const result = persistence({ target: params.target, actions: params.actions, options: params.options });
+  return { result };
+}
+
+async function handleKeylogger(params: any): Promise<any> {
+  const { keylogger } = await import("../adapters/keylogger.js");
+  const result = keylogger({ target: params.target, actions: params.actions, options: params.options });
+  return { result };
+}
+
+async function handlePersistenceSchedule(params: any): Promise<any> {
+  const { persistenceSchedule } = await import("../adapters/persistenceSchedule.js");
+  const result = persistenceSchedule({ target: params.target, type: params.type, options: params.options });
+  return { result };
+}
+
+async function handleEvasion(params: any): Promise<any> {
+  const { evasion } = await import("../adapters/evasion.js");
+  const result = evasion({ file: params.file, target: params.target, encoding: params.encoding, options: params.options });
+  return { result };
+}
+
+async function handleEvasionSilent(params: any): Promise<any> {
+  const { evasionSilent } = await import("../adapters/evasion.js");
+  const result = evasionSilent({ target: params.target, payload: params.payload, options: params.options });
+  return { result };
+}
+
+async function handleEvasionStealth(params: any): Promise<any> {
+  const { evasionStealth } = await import("../adapters/evasion.js");
+  const result = evasionStealth({ target: params.target, method: params.method, options: params.options });
+  return { result };
+}
+
+async function handleReporting(params: any): Promise<any> {
+  const { reporting } = await import("../adapters/reporting.js");
+  const result = reporting({ target: params.target, scope: params.scope, findings: params.findings, executiveSummary: params.executiveSummary, options: params.options });
+  return { result };
+}
+
+async function handleReportWrite(params: any): Promise<any> {
+  const { reportWrite } = await import("../adapters/reporting.js");
+  const result = reportWrite({ target: params.target, output: params.output, format: params.format, options: params.options });
+  return { result };
+}
+
+async function handleC2(params: any): Promise<any> {
+  const { c2 } = await import("../adapters/c2.js");
+  const result = c2({ target: params.target, protocol: params.protocol, options: params.options });
+  return { result };
+}
+
+async function handleC2Interact(params: any): Promise<any> {
+  const { c2Interact } = await import("../adapters/c2.js");
+  const result = c2Interact({ sessionId: params.sessionId, command: params.command, options: params.options });
+  return { result };
+}
+
+async function handleC2Kill(params: any): Promise<any> {
+  const { c2Kill } = await import("../adapters/c2.js");
+  const result = c2Kill({ sessionId: params.sessionId, options: params.options });
+  return { result };
+}
+
+async function handlePrivilegeEscalation(params: any): Promise<any> {
+  const { privilegeEscalation } = await import("../adapters/privilegeEscalation.js");
+  const result = privilegeEscalation({ target: params.target, escalation: params.escalation, options: params.options });
+  return { result };
+}
+
+async function handleLateralMovement(params: any): Promise<any> {
+  const { lateralMovement } = await import("../adapters/lateralMovement.js");
+  const result = lateralMovement({ target: params.target, auth: params.auth, options: params.options });
+  return { result };
+}
+
+async function handleExfiltration(params: any): Promise<any> {
+  const { exfiltration } = await import("../adapters/exfiltration.js");
+  const result = exfiltration({ target: params.target, data: params.data, method: params.method, options: params.options });
+  return { result };
+}
+
+async function handleWireless(params: any): Promise<any> {
+  const { wireless } = await import("../adapters/wireless.js");
+  const result = wireless({ interface: params.interface, target: params.target, attack: params.attack, options: params.options });
+  return { result };
+}
+
+async function handleCloud(params: any): Promise<any> {
+  const { cloud } = await import("../adapters/cloud.js");
+  const result = cloud({ target: params.target, cloud: params.cloud, actions: params.actions, options: params.options });
+  return { result };
+}
+
+async function handleBruteForce(params: any): Promise<any> {
+  const { bruteForce } = await import("../adapters/bruteForce.js");
+  const result = bruteForce({ target: params.target, service: params.service, wordlist: params.wordlist, options: params.options });
+  return { result };
+}
+
+async function handleMisp(params: any): Promise<any> {
+  const { misp } = await import("../adapters/misp.js");
+  const result = misp({ action: params.action, indicator: params.indicator, server: params.server, apiKey: params.apiKey, options: params.options });
+  return { result };
+}
+
+async function handleOsint(params: any): Promise<any> {
+  const { osint } = await import("../adapters/osint.js");
+  const result = osint({ target: params.target, search: params.search, provider: params.provider, options: params.options });
   return { result };
 }

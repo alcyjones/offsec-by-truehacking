@@ -78,6 +78,87 @@ export const OFFSEC_TOOLS = {
 
   /** NTLM hashes dump (system/credential). */
   ntlmDump: "ntlmDump" as const,
+
+  // ─── New: Persistence (backdoor, keylogger, scheduler) ──────────────────
+
+  /** Create persistence (backdoor, keylogger, scheduled task, registry). */
+  persistence: "persistence" as const,
+
+  /** Keylogger (screenshot + keystroke capture). */
+  keylogger: "keylogger" as const,
+
+  /** Persistence via scheduled task / registry / cron. */
+  persistenceSchedule: "persistenceSchedule" as const,
+
+  // ─── New: Evasion (UDROP, Encode, Silent, Stealth) ──────────────────────
+
+  /** Decode/encode shellcode (XOR, ROT13, Base64, UDROP). */
+  evasion: "evasion" as const,
+
+  /** Silent mode (reverse/shellcode/binder with evasion). */
+  evasionSilent: "evasionSilent" as const,
+
+  /** Stealth (network-level stealth: DNS tunneling, HTTPS, etc.). */
+  evasionStealth: "evasionStealth" as const,
+
+  // ─── New: Reporting ─────────────────────────────────────────────────────
+
+  /** Generate a penetration report (findings, recommendations, CVSS). */
+  reporting: "reporting" as const,
+
+  /** Write a report (PDF/HTML/markdown format). */
+  reportWrite: "reportWrite" as const,
+
+  // ─── New: C2 / Command & Control ────────────────────────────────────────
+
+  /** Create a C2 (custom command-and-control channel). */
+  c2: "c2" as const,
+
+  /** Interact with a C2 session (remote shell). */
+  c2Interact: "c2Interact" as const,
+
+  /** Kill (remove) a C2 session. */
+  c2Kill: "c2Kill" as const,
+
+  // ─── New: Privilege Escalation ──────────────────────────────────────────
+
+  /** Privilege escalation (sudo, SUID, capabilities, kernel exploit). */
+  privilegeEscalation: "privilegeEscalation" as const,
+
+  // ─── New: Lateral Movement ──────────────────────────────────────────────
+
+  /** Lateral movement (psExec, WMI, SSH, Pass-the-Hash, credential reuse). */
+  lateralMovement: "lateralMovement" as const,
+
+  // ─── New: Exfiltration ──────────────────────────────────────────────────
+
+  /** Exfiltration (data exfiltration: DNS, HTTPS, ICMP, DNS tunneling). */
+  exfiltration: "exfiltration" as const,
+
+  // ─── New: Wireless / Physical ───────────────────────────────────────────
+
+  /** Wireless (Wi-Fi attack: deauth, PMKID, handshake). */
+  wireless: "wireless" as const,
+
+  // ─── New: Cloud ─────────────────────────────────────────────────────────
+
+  /** Cloud (cloud exploitation: IAM, S3, GCP, Azure). */
+  cloud: "cloud" as const,
+
+  // ─── New: Brute Force / Credential ──────────────────────────────────────
+
+  /** Brute force (password guessing: SSH, RDP, FTP, SMB, etc.). */
+  bruteForce: "bruteForce" as const,
+
+  // ─── New: MISP / Intel Gathering ────────────────────────────────────────
+
+  /** MISP (connect to MISP: Import/export indicators). */
+  misp: "misp" as const,
+
+  // ─── New: OSINT ─────────────────────────────────────────────────────────
+
+  /** OSINT (Open Source Intel: username search, email, phone, social). */
+  osint: "osint" as const,
 } as const;
 
 /** Build the catalog (product catalog + tool aliases). */
@@ -203,7 +284,7 @@ export function buildCatalog() {
       {
         name: OFFSEC_TOOLS.kerberoast,
         title: "Kerberoast",
-        description: "Kerberoasting (Kerberos ticket extraction).",
+        description: "Kerberoasting (Kerberos service ticket extraction).",
         inputSchema: "type:object { domain: string, options: object }",
       },
       {
@@ -211,6 +292,132 @@ export function buildCatalog() {
         title: "NTLM Dump",
         description: "NTLM credential dump (system/credential databases).",
         inputSchema: "type:object { target: string, options: object }",
+      },
+      // ─── New: Persistence ─────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.persistence,
+        title: "Persistence",
+        description: "Create persistence (backdoor, keylogger, scheduled task, registry entry).",
+        inputSchema: "type:object { target: string, actions: string[], options: object }",
+      },
+      {
+        name: OFFSEC_TOOLS.keylogger,
+        title: "Keylogger",
+        description: "Keylogger (screenshot + keystroke capture on target).",
+        inputSchema: "type:object { target: string, options: object }",
+      },
+      {
+        name: OFFSEC_TOOLS.persistenceSchedule,
+        title: "Persistence Schedule",
+        description: "Persist via scheduled task / registry / cron.",
+        inputSchema: "type:object { target: string, type: 'schedule'|'registry'|'cron', options: object }",
+      },
+      // ─── New: Evasion ─────────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.evasion,
+        title: "Evasion (Encode)",
+        description: "Encode/decode shellcode (XOR, ROT13, Base64, UDROP, etc.).",
+        inputSchema: "type:object { file: string, encoding: string, target: string }",
+      },
+      {
+        name: OFFSEC_TOOLS.evasionSilent,
+        title: "Evasion Silent",
+        description: "Silent mode (reverse/shellcode/binder with stealth).",
+        inputSchema: "type:object { target: string, payload: string }",
+      },
+      {
+        name: OFFSEC_TOOLS.evasionStealth,
+        title: "Evasion Stealth",
+        description: "Network-level stealth (DNS tunneling, HTTPS, covert channels).",
+        inputSchema: "type:object { target: string, method: string }",
+      },
+      // ─── New: Reporting ───────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.reporting,
+        title: "Penetration Report",
+        description: "Generate a penetration report (findings, recommendations, CVSS).",
+        inputSchema: "type:object { target: string, scope: string, findings: object[] }",
+      },
+      {
+        name: OFFSEC_TOOLS.reportWrite,
+        title: "Write Report",
+        description: "Write a report (PDF/HTML/markdown format).",
+        inputSchema: "type:object { target: string, output: string, format: 'pdf'|'html'|'md' }",
+      },
+      // ─── New: C2 ──────────────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.c2,
+        title: "Create C2",
+        description: "Create a custom C2 (command-and-control channel).",
+        inputSchema: "type:object { target: string, protocol: string, options: object }",
+      },
+      {
+        name: OFFSEC_TOOLS.c2Interact,
+        title: "C2 Interact",
+        description: "Interact with a C2 session (remote shell/command).",
+        inputSchema: "type:object { sessionId: string, command: string }",
+      },
+      {
+        name: OFFSEC_TOOLS.c2Kill,
+        title: "C2 Kill",
+        description: "Kill (remove) a C2 session.",
+        inputSchema: "type:object { sessionId: string }",
+      },
+      // ─── New: Privilege Escalation ────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.privilegeEscalation,
+        title: "Privilege Escalation",
+        description: "Privilege escalation (sudo, SUID, capabilities, kernel exploit).",
+        inputSchema: "type:object { target: string, escalation: string, options: object }",
+      },
+      // ─── New: Lateral Movement ────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.lateralMovement,
+        title: "Lateral Movement",
+        description: "Lateral movement (psExec, WMI, SSH, Pass-the-Hash, credential reuse).",
+        inputSchema: "type:object { target: string, auth: string, options: object }",
+      },
+      // ─── New: Exfiltration ────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.exfiltration,
+        title: "Exfiltration",
+        description: "Data exfiltration (DNS, HTTPS, ICMP, DNS tunneling, etc.).",
+        inputSchema: "type:object { target: string, data: string, method: string }",
+      },
+      // ─── New: Wireless ────────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.wireless,
+        title: "Wireless",
+        description: "Wi-Fi attack (deauth, PMKID, handshake, WEP/WPA).",
+        inputSchema: "type:object { interface: string, target: string, attack: string }",
+      },
+      // ─── New: Cloud ───────────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.cloud,
+        title: "Cloud",
+        description: "Cloud exploitation (IAM, S3, GCP, Azure, API keys).",
+        inputSchema: "type:object { target: string, cloud: 'aws'|'gcp'|'azure', options: object }",
+      },
+      // ─── New: Brute Force ─────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.bruteForce,
+        title: "Brute Force",
+        description: "Brute force (password guessing: SSH, RDP, FTP, SMB, etc.).",
+        inputSchema: "type:object { target: string, service: string, wordlist: string }",
+      },
+      // ─── New: MISP ────────────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.misp,
+        title: "MISP",
+        description: "Connect to MISP (Import/export indicators, IOCs, events).",
+        inputSchema: "type:object { action: string, indicator: string, options: object }",
+      },
+      // ─── New: OSINT ───────────────────────────────────────────────────────
+      {
+        name: OFFSEC_TOOLS.osint,
+        title: "OSINT",
+        description: "Open Source Intel (username search, email, phone, social media).",
+        inputSchema: "type:object { target: string, search: string, options: object }",
       },
     ],
   };
