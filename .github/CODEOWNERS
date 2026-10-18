@@ -1,0 +1,17 @@
+# Codeowners (Official Maintainers)
+# Format: <owner> <glob>
+
+# All domains (src/*): core maintainers
+* @alcyjones
+
+# Tools (src/server/tools.ts): tool authors (with approval)
+src/server/tools.ts @alcyjones
+
+# Adapters (src/adapters/*): binary tools (with approval)
+src/adapters/* @alcyjones
+
+# Skills (`.agents/skills/*`): skill authors (with approval)
+.agents/skills/* @alcyjones
+
+# Docs (README.md, docs/*): docs authors (with approval)
+*.md @alcyjones
