@@ -161,15 +161,21 @@ async function handleCveExploit(params: any): Promise<any> {
 }
 
 async function handleThreatIntel(params: any): Promise<any> {
-  return { result: { message: "threatIntel tool (not yet implemented: connects to external APIs)." } };
+  const { threatIntel } = await import("../adapters/threatIntel.js");
+  const result = threatIntel({ query: params.query, provider: params.provider, actions: params.actions, target: params.target, options: params.options });
+  return { result };
 }
 
 async function handleMalware(params: any): Promise<any> {
-  return { result: { message: "malwareAnalysis tool (not yet implemented: PE/YARA/hashes)." } };
+  const { malwareAnalysis } = await import("../adapters/malwareAnalysis.js");
+  const result = malwareAnalysis({ path: params.path, actions: params.actions, target: params.target, options: params.options });
+  return { result };
 }
 
 async function handleForensic(params: any): Promise<any> {
-  return { result: { message: "forensic tool (not yet implemented: memory/file-dump)." } };
+  const { forensic } = await import("../adapters/forensic.js");
+  const result = forensic({ actions: params.actions, target: params.target, options: params.options });
+  return { result };
 }
 
 async function handleListAgents(): Promise<any> {
@@ -207,9 +213,13 @@ async function handleCustomPayload(params: any): Promise<any> {
 }
 
 async function handleKerberoast(params: any): Promise<any> {
-  return { result: { message: "Kerberoast (not yet implemented: Kerberos ticket extraction)." } };
+  const { kerberoast } = await import("../adapters/kerberoast.js");
+  const result = kerberoast({ domain: params.domain, target: params.target, options: params.options });
+  return { result };
 }
 
 async function handleNtlmDump(params: any): Promise<any> {
-  return { result: { message: "NTLM dump (not yet implemented: credential databases)." } };
+  const { ntlmDump } = await import("../adapters/ntlmDump.js");
+  const result = ntlmDump({ target: params.target, actions: params.actions, options: params.options });
+  return { result };
 }

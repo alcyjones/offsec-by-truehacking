@@ -1,18 +1,17 @@
 /**
  * OffSec by True Hacking — Adapter: Nmap (Client/Tool Boundaries).
  *
- * Mirrors REA's src/adapter/ pattern: adapter/nmap.ts
+ * Mirrors REA's src/adapter/nmap.ts:
  *   - runs nmap, parses output, returns ScanResult (domain).
  *   - supports TCP/UDP/stealth/connect modes.
  *   - handles: missing binary, permission, timeout, no host.
  * See: https://github.com/morluto/rea/blob/main/src/adapter/nmap.ts
  */
 
-import { execFileSync } from "node:child_process";
-import { parse } from "node:path";
-import * as xml from "node:xml2js";
-
-import type { ScanResult, ScanPort, Provenance } from "../domain/analysisResultProjection.js";
+import { spawnSync } from "node:child_process";
+import { createServer } from "node:http";
+import { createProvenance, type ScanResult, type ScanPort, type Provenance } from "../domain/analysisResultProjection.js";
+import { parseString } from "xml2js";
 
 const VERSION = "nmap8.25+";  // latest nmap version
 const TIMEOUT_SEC = 300;  // max 5 min
@@ -125,7 +124,7 @@ function parseOutput(target: string, xmlText: string, ports: string, mode: strin
   // Use the smallest reasonable parser (node:util for XML).
   // If the XML fails (not XML), return a partial result.
   try {
-    const parsed: Record<string, any> = xml.parseString(xmlText.trim());
+    const parsed: Record<string, any> = parseString(xmlText.trim());
     const hosts = (parsed.nmaprun?.scanrun?.hosts?.[0] ?? []);
     if (hosts.length === 0) {
       return createPartial(target, ports, mode);
@@ -172,4 +171,10 @@ function createPartial(target: string, ports: string, mode: string): ScanResult 
     options: { ports, mode },
     provenance: createProvenance("nmap", `nmap://${target}/${ports}/${mode}`),
   };
+}
+
+/** Get elapsed time (from XML duration). */
+function getElapsedMs(xmlText: string): number {
+  const match = xmlText.match(/scanrun.*?duration=(\d+)/);
+  return match ? parseInt(match[1], 10) : 0;
 }

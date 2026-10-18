@@ -9,76 +9,75 @@
 export const OFFSEC_TOOLS = {
   // ─── Reconnaissance / Scanning ──────────────────────────────────────────
 
-  /** Scan a target with nmap-like behavior (TCP SYN, port, services). */
-  readonly scan = "scan" as const;
+  scan: "scan" as const,
 
   /** Scan a target with shallow (few ports) or deep (1–65535) modes. */
-  readonly scanShallow = "scanShallow" as const;
+  scanShallow: "scanShallow" as const,
 
   /** Scan a target with deep mode (all 65535 ports). */
-  readonly scanDeep = "scanDeep" as const;
+  scanDeep: "scanDeep" as const,
 
   /** Capture live traffic (pcap: interface, bpf filter, output path). */
-  readonly pcap = "pcap" as const;
+  pcap: "pcap" as const,
 
   /** Capture live traffic (pcap: interface, bpf filter, output path). */
-  readonly pcapLive = "pcapLive" as const;
+  pcapLive: "pcapLive" as const,
 
   // ─── Exploitation / Offensive ───────────────────────────────────────────
 
   /** Run an exploit (MSFvenom-style payload generation). */
-  readonly exploit = "exploit" as const;
+  exploit: "exploit" as const,
 
   /** Run Metasploit (msfconsole-style framework). */
-  readonly metasploit = "metasploit" as const;
+  metasploit: "metasploit" as const,
 
   /** Execute a custom payload (shellcode, reverse shell, etc.). */
-  readonly payload = "payload" as const;
+  payload: "payload" as const,
 
   /** Exploit a specific vulnerability (CVE-based lookup + exploit). */
-  readonly cveExploit = "cveExploit" as const;
+  cveExploit: "cveExploit" as const,
 
   // ─── CTI (Intelligence) ─────────────────────────────────────────────────
 
   /** Search threat intelligence (shodan, virustotal, etc.). */
-  readonly threatIntel = "threatIntel" as const;
+  threatIntel: "threatIntel" as const,
 
   /** Search malware analysis (samples, hashes, yara). */
-  readonly malwareAnalysis = "malwareAnalysis" as const;
+  malwareAnalysis: "malwareAnalysis" as const,
 
   /** Analyze malware/forensic (YARA rules, signatures, hashes). */
-  readonly forensic = "forensic" as const;
+  forensic: "forensic" as const,
 
   // ─── Post-exploitation / Framework ──────────────────────────────────────
 
   /** List agents (Metasploit framework agents). */
-  readonly listAgents = "listAgents" as const;
+  listAgents: "listAgents" as const,
 
   /** Interact with an agent (session read/write). */
-  readonly agentInteract = "agentInteract" as const;
+  agentInteract: "agentInteract" as const,
 
   /** Kill a session (agent/compound). */
-  readonly killSession = "killSession" as const;
+  killSession: "killSession" as const,
 
   // ─── Utilities ──────────────────────────────────────────────────────────
 
   /** Enumerate local/remote hosts (subnet scan). */
-  readonly subnetScan = "subnetScan" as const;
+  subnetScan: "subnetScan" as const,
 
   /** Run a single command (generic shell). */
-  readonly command = "command" as const;
+  command: "command" as const,
 
   /** File operations (read/write/transfer). */
-  readonly fileOps = "fileOps" as const;
+  fileOps: "fileOps" as const,
 
-  /** Custom payload (shellcode, reverse, bind, meterpreter). */
-  readonly customPayload = "customPayload" as const;
+  /** Custom payload (shellcode, reverse/binder/bind, meterpreter). */
+  customPayload: "customPayload" as const,
 
   /** Kerberoasting (Kerberos service ticket extraction). */
-  readonly kerberoast = "kerberoast" as const;
+  kerberoast: "kerberoast" as const,
 
   /** NTLM hashes dump (system/credential). */
-  readonly ntlmDump = "ntlmDump" as const;
+  ntlmDump: "ntlmDump" as const,
 } as const;
 
 /** Build the catalog (product catalog + tool aliases). */

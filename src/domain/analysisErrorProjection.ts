@@ -41,10 +41,12 @@ export function createAnalysisError(code: number, message: string): AnalysisErro
       return { kind: "target", code, message };
     case code === 403:
       return { kind: "security", code, message };
-    case code === 404:
+    case code >= 404 && code < 429:
       return { kind: "operation", code, message };
     case code === 429:
       return { kind: "capacity", code, message };
+    case code >= 430 && code < 490:
+      return { kind: "runtime", code: 500, message };
     case code >= 490 && code < 500:
       return { kind: "cancellation", code, message };
     default:

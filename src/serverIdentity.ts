@@ -11,29 +11,29 @@ export const SERVER_IDENTITY = {
    * This value must match the "name" in server.json.
    * Used by MCP protocol as `server.name`.
    */
-  readonly id = "io.github.truehacking/offsec-by-truehacking";
+  id: "io.github.truehacking/offsec-by-truehacking",
 
   /**
    * Human-readable name used in MCP responses and CLI help.
    */
-  readonly title = "OffSec by True Hacking";
+  title: "OffSec by True Hacking",
 
   /**
    * Semantic version of the server (matches server.json version).
    */
-  readonly version = "0.0.1";
+  version: "0.0.1",
 
   /**
    * Description used in MCP protocol (translated/visible to the caller).
    */
-  readonly description =
-    "Pentest, CTI e segurança ofensiva — do terminal ou agente com uma CLI e servidor MCP.";
+  description:
+    "Pentest, CTI e segurança ofensiva — do terminal ou agente com uma CLI e servidor MCP.",
 
   /**
    * Website URL (GitHub).
    */
-  readonly websiteUrl =
-    "https://github.com/truehacking/offsec-by-truehacking";
+  websiteUrl:
+    "https://github.com/truehacking/offsec-by-truehacking",
 } as const;
 
 /**
