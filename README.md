@@ -116,6 +116,27 @@ offsec-by-truehacking/
 | `bruteForce` | Credenciais | Brute force (SSH, RDP, FTP, SMB, HTTP password). |
 | `misp` | Intel | Connect MISP (Import/export IOCs, indicators). |
 | `osint` | Intel | OSINT (username, email, phone, social media lookup). |
+| `portForward` | Rede | Port forwarding (SSH tunnel, SOCKS proxy, port mapping, NAT). |
+| `emailPhishing` | Email | Email/Phishing (phishing, spear phishing, DNS spoofing, SMTP relay). |
+| `socialEng` | Eng. Social | Social Engineering (vishing, smishing, QR attack, physical attack). |
+| `incidentResponse` | IR | Incident Response (IR, triage, forensics, recovery, log analysis, threat hunting). |
+| `compliance` | Conformidade | Compliance (audit, CVE verification, vulnerability scan, policy check, risk assessment). |
+| `rfAttack` | HW/RF | Hardware/RF (RFID attack, Bluetooth attack, NFC attack, SDN attack). |
+| `binaryRe` | RE | Binary/RE (assembly, PE/ELF parsing, shellcode generation, ROP chain). |
+| `databaseSql` | Banco de Dados | Database/SQL (SQLi, MySQL, PostgreSQL, MongoDB, Redis, NoSQL). |
+| `webTest` | Web | Web Testing (XSS, CSRF, SSRF, SSI, SSTI). |
+| `keyMgmt` | Chaves | Key Management (certificate attack, PFX attack, cert harvesting, key theft). |
+| `networkInfra` | Infraestrutura | Network/Infrastructure (DNS attack, DHCP attack, SNMP attack, ARP attack, IPv6 attack, NTP attack). |
+| `payloadGen` | Geração de Payload | Payload Generation (ASM, shellcode, ROP, file generation). |
+| `mobile` | Mobile | Mobile (Android APK reverse engineering, iOS binary analysis, mobile penetration testing). |
+| `container` | Container | Container (Docker attack, container escape, K8s attack, etcd attack). |
+| `apiTest` | API | API Testing (REST API, GraphQL, OpenAPI, rate limiting, fuzzing). |
+| `privacy` | Privacidade/Leak | Privacy (data leak detection, breach checking, dark web monitoring). |
+| `phone` | Telefone | Phone (SS7 attack, SIM swap, smishing, vishing, caller ID spoofing). |
+| `virtualization` | Virtualização | Virtualization (VM escape, hypervisor attack, container escape). |
+| `server` | Servidor | Server (Apache attack, Nginx attack, IIS attack, Tomcat attack, Windows Server attack). |
+| `email` | Email | Email (phishing, spear phishing, DNS spoofing, email exploit, DKIM attack, header attack). |
+
 
 ## Errata (erros comuns)
 
